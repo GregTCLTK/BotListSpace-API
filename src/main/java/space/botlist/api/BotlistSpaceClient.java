@@ -86,13 +86,13 @@ public class BotlistSpaceClient {
         return new Gson().fromJson(response.body().string(), Bot.class);
     }
 
-    public Bot getUpvotes() throws IOException {
+    public List<Bot> getUpvoter(String id) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://botlist.space/api/bots/" + botid + "/upvotes")
+                .url("https://botlist.space/api/bots/" + id + "/upvotes?ids=true")
                 .addHeader("Authorization", token)
                 .build();
         Response response = client.newCall(request).execute();
-        return new Gson().fromJson(response.body().string(), Bot.class);
+        return new Gson().fromJson(response.body().string(), new TypeToken<List<Bot>>(){}.getType());
     }
 }
