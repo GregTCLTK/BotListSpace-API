@@ -5,13 +5,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 import space.botlist.api.bot.Bot;
+import space.botlist.api.bot.Upvoter;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
  * @author Biosphere, GregTCLTK
- * @date 28.04.18
+ * @date 17.06.18
  */
 
 public class BotlistSpaceClient {
@@ -89,10 +90,20 @@ public class BotlistSpaceClient {
     public List<Bot> getUpvoter(String id) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
+                .url("https://botlist.space/api/bots/" + id + "/upvotes")
+                .addHeader("Authorization", token)
+                .build();
+        Response response = client.newCall(request).execute();
+        return new Gson().fromJson(response.body().string(), new TypeToken<List<Upvoter>>(){}.getType());
+    }
+
+    public List<Bot> getUpvoterIds(String id) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
                 .url("https://botlist.space/api/bots/" + id + "/upvotes?ids=true")
                 .addHeader("Authorization", token)
                 .build();
         Response response = client.newCall(request).execute();
-        return new Gson().fromJson(response.body().string(), new TypeToken<List<Bot>>(){}.getType());
+        return new Gson().fromJson(response.body().string(), new TypeToken<List<Upvoter>>(){}.getType());
     }
 }

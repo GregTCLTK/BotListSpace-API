@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author Biosphere
- * @date 17.03.18
+ * @date 17.06.18
  */
 @Getter
 public class Bot {
